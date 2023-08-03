@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:internet_store_tt/models/product_model.dart';
+import 'package:internet_store_tt/models/data_storage.dart';
 import 'package:internet_store_tt/screen/product_info_screen.dart';
 import 'package:internet_store_tt/screen/shopping_cart_screen.dart';
 
@@ -7,68 +7,6 @@ import '../methods.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
-
-  List<Product> products = [
-    Product(
-      name: 'Xiaomi Redmi 12 8+128Gb',
-      description: 'Мощный смартфон с отличной камерой.',
-      price: 15000,
-      urlImage: 'https://www.myphone.kg/files/media/20/20883.webp',
-    ),
-    Product(
-        name: 'Ноутбук Dell XPS 13',
-        description:
-            'Легкий и производительный ноутбук для работы и развлечений.',
-        price: 120000,
-        urlImage:
-            'https://avatars.mds.yandex.net/get-mpic/4362548/img_id1555423894575553672.jpeg/orig'),
-    Product(
-      name: 'Наушники Sony WH-1000XM4',
-      description: 'Отличные беспроводные наушники с активным шумоподавлением.',
-      price: 24999,
-      urlImage: 'https://gamestore.kg/wp-content/uploads/wh100xm4-1.jpg',
-    ),
-    Product(
-      name: 'Xiaomi Redmi 12 8+128Gb',
-      description: 'Мощный смартфон с отличной камерой.',
-      price: 15000,
-      urlImage: 'https://www.myphone.kg/files/media/20/20883.webp',
-    ),
-    Product(
-        name: 'Ноутбук Dell XPS 13',
-        description:
-            'Легкий и производительный ноутбук для работы и развлечений.',
-        price: 120000,
-        urlImage:
-            'https://avatars.mds.yandex.net/get-mpic/4362548/img_id1555423894575553672.jpeg/orig'),
-    Product(
-      name: 'Наушники Sony WH-1000XM4',
-      description: 'Отличные беспроводные наушники с активным шумоподавлением.',
-      price: 24999,
-      urlImage: 'https://gamestore.kg/wp-content/uploads/wh100xm4-1.jpg',
-    ),
-    Product(
-      name: 'Xiaomi Redmi 12 8+128Gb',
-      description: 'Мощный смартфон с отличной камерой.',
-      price: 15000,
-      urlImage: 'https://www.myphone.kg/files/media/20/20883.webp',
-    ),
-    Product(
-        name: 'Ноутбук Dell XPS 13',
-        description:
-            'Легкий и производительный ноутбук для работы и развлечений.',
-        price: 120000,
-        urlImage:
-            'https://avatars.mds.yandex.net/get-mpic/4362548/img_id1555423894575553672.jpeg/orig'),
-    Product(
-      name: 'Наушники Sony WH-1000XM4',
-      description: 'Отличные беспроводные наушники с активным шумоподавлением.',
-      price: 24999,
-      urlImage: 'https://gamestore.kg/wp-content/uploads/wh100xm4-1.jpg',
-    ),
-  ];
-
-  List<Product> buyProducts = [];
 
   @override
   Widget build(BuildContext context) {
@@ -81,9 +19,7 @@ class HomeScreen extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => ShoppingCartScreen(
-                              buyProducts: buyProducts,
-                            )),
+                        builder: (context) => ShoppingCartScreen()),
                   );
                 },
                 icon: const Icon(Icons.shopping_cart)),
@@ -91,7 +27,7 @@ class HomeScreen extends StatelessWidget {
         ),
         body: GridView.builder(
             padding: const EdgeInsets.all(8.0),
-            itemCount: products.length,
+            itemCount: DataStorage().products.length,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               mainAxisExtent: 280,
@@ -105,7 +41,7 @@ class HomeScreen extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: (context) => ProductInfoScreen(
-                                product: products[index],
+                                index: index,
                               )));
                 },
                 child: Card(
@@ -118,7 +54,9 @@ class HomeScreen extends StatelessWidget {
                           child: SizedBox(
                             width: 100,
                             height: 100,
-                            child: Image.network(products[index].urlImage ??
+                            child: Image.network(DataStorage()
+                                    .products[index]
+                                    .urlImage ??
                                 "https://www.lionstroy.ru/published/publicdata/U70619SHOP/attachments/SC/products_pictures/nophoto.png"),
                           ),
                         ),
@@ -128,7 +66,7 @@ class HomeScreen extends StatelessWidget {
                         SizedBox(
                           height: 40,
                           child: Text(
-                            products[index].name,
+                            DataStorage().products[index].name,
                             maxLines: 2,
                             style: const TextStyle(
                                 fontSize: 14, fontWeight: FontWeight.bold),
@@ -138,14 +76,14 @@ class HomeScreen extends StatelessWidget {
                           height: 5,
                         ),
                         Text(
-                          products[index].description,
+                          DataStorage().products[index].description,
                           overflow: TextOverflow.ellipsis,
                           style:
                               const TextStyle(fontSize: 10, color: Colors.grey),
                         ),
                         const SizedBox(height: 5),
                         Text(
-                          "${formatNumberWithSpaces(products[index].price)} сом",
+                          "${formatNumberWithSpaces(DataStorage().products[index].price)} сом",
                           style: const TextStyle(
                               fontSize: 18, fontWeight: FontWeight.bold),
                         ),
@@ -155,7 +93,7 @@ class HomeScreen extends StatelessWidget {
                         Center(
                           child: ElevatedButton(
                               onPressed: () {
-                                buyProducts.add(products[index]);
+                                DataStorage().buyProductsIndex.add(index);
                               },
                               child: const Text(
                                 "Добавить в корзину",

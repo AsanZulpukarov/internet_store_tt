@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:internet_store_tt/models/product_model.dart';
 
 import '../methods.dart';
+import '../models/data_storage.dart';
+import 'form_for_edit_product.dart';
 
 class ProductInfoScreen extends StatelessWidget {
-  Product product;
-  ProductInfoScreen({Key? key, required this.product}) : super(key: key);
+  int index;
+  ProductInfoScreen({Key? key, required this.index}) : super(key: key);
 
   TextStyle styleTitleText = const TextStyle(
       fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white);
@@ -19,24 +20,63 @@ class ProductInfoScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius:
-                    BorderRadius.vertical(bottom: Radius.circular(40)),
-              ),
-              alignment: Alignment.center,
-              height: 300,
-              child: Image.network(product.urlImage ??
-                  "https://www.lionstroy.ru/published/publicdata/U70619SHOP/attachments/SC/products_pictures/nophoto.png"),
+            Stack(
+              children: [
+                Container(
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius:
+                        BorderRadius.vertical(bottom: Radius.circular(40)),
+                  ),
+                  alignment: Alignment.center,
+                  height: 320,
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Image.network(DataStorage()
+                            .products[index]
+                            .urlImage ??
+                        "https://www.lionstroy.ru/published/publicdata/U70619SHOP/attachments/SC/products_pictures/nophoto.png"),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(
+                      Icons.arrow_back,
+                      color: Colors.black,
+                      size: 30,
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.topRight,
+                  child: IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => EditProductScreen(
+                                      index: index,
+                                    )));
+                      },
+                      icon: const Icon(
+                        Icons.edit,
+                        color: Colors.black,
+                        size: 30,
+                      )),
+                )
+              ],
             ),
             Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    product.name,
+                    DataStorage().products[index].name,
                     overflow: TextOverflow.ellipsis,
                     style: styleTitleText,
                   ),
@@ -53,7 +93,7 @@ class ProductInfoScreen extends StatelessWidget {
                               style: styleTitleText,
                             ),
                             Text(
-                              product.description,
+                              DataStorage().products[index].description,
                               style: styleSubTitleText,
                             ),
                           ],
@@ -71,7 +111,7 @@ class ProductInfoScreen extends StatelessWidget {
                         style: styleTitleText,
                       ),
                       Text(
-                        "${formatNumberWithSpaces(product.price)} сом",
+                        "${formatNumberWithSpaces(DataStorage().products[index].price)} сом",
                         style: styleSubTitleText,
                       ),
                     ],

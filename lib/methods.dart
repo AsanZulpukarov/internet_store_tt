@@ -6,3 +6,14 @@ String formatNumberWithSpaces(int number) {
       regExp, (Match match) => '${match.group(0)} ');
   return formattedNumber;
 }
+
+bool isValidPhotoUrl(String url) {
+  // Регулярное выражение для проверки URL изображения.
+  RegExp regExp = RegExp(
+    r'^https?:\/\/.*\.(?:png|jpg|jpeg|gif|bmp|webp)',
+    caseSensitive: false,
+    multiLine: false,
+  );
+
+  return regExp.hasMatch(url);
+}
