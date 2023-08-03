@@ -41,66 +41,84 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
           : Stack(
               alignment: Alignment.center,
               children: [
-                ListView.builder(
-                    itemCount: widget.buyProducts.length,
-                    itemBuilder: (context, int index) {
-                      Product item = widget.buyProducts[index];
-                      return Dismissible(
-                        key: Key(index.toString()),
-                        onDismissed: (direction) {
-                          widget.buyProducts.removeAt(index);
-                          sumProducts();
-                          setState(() {});
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                                content:
-                                    Text('${item.name} удалено из корзины.')),
-                          );
+                ListView.separated(
+                  itemCount: widget.buyProducts.length,
+                  itemBuilder: (context, int index) {
+                    Product item = widget.buyProducts[index];
+                    return Dismissible(
+                      key: Key(index.toString()),
+                      onDismissed: (direction) {
+                        widget.buyProducts.removeAt(index);
+                        sumProducts();
+                        setState(() {});
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                              content:
+                                  Text('${item.name} удалено из корзины.')),
+                        );
+                      },
+                      direction: DismissDirection.endToStart,
+                      background: Container(
+                        padding: const EdgeInsets.only(right: 20),
+                        color: Colors.red,
+                        alignment: Alignment.centerRight,
+                        child: const Icon(
+                          Icons.delete,
+                          color: Colors.white,
+                        ),
+                      ),
+                      child: ListTile(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ProductInfoScreen(
+                                        product: item,
+                                      )));
                         },
-                        direction: DismissDirection.endToStart,
-                        background: Container(
-                          padding: const EdgeInsets.only(right: 20),
-                          color: Colors.red,
-                          alignment: Alignment.centerRight,
-                          child: const Icon(
-                            Icons.delete,
-                            color: Colors.white,
-                          ),
+                        leading: Container(
+                          alignment: Alignment.center,
+                          color: Colors.white,
+                          width: 80,
+                          height: 80,
+                          child: Image.network(item.urlImage ??
+                              "https://www.lionstroy.ru/published/publicdata/U70619SHOP/attachments/SC/products_pictures/nophoto.png"),
                         ),
-                        child: ListTile(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ProductInfoScreen(
-                                          product: item,
-                                        )));
-                          },
-                          leading: Container(
-                            alignment: Alignment.center,
-                            width: 80,
-                            height: 80,
-                            child: Image.network(item.urlImage ??
-                                "https://www.lionstroy.ru/published/publicdata/U70619SHOP/attachments/SC/products_pictures/nophoto.png"),
-                          ),
-                          title: Text(item.name),
-                          subtitle:
-                              Text("${formatNumberWithSpaces(item.price)} сом"),
-                          trailing: TextButton(
-                              onPressed: () {}, child: Text("Купить")),
+                        title: Text(
+                          item.name,
+                          style: const TextStyle(color: Colors.white),
                         ),
-                      );
-                    }),
+                        subtitle: Text(
+                          "${formatNumberWithSpaces(item.price)} сом",
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                        trailing: ElevatedButton(
+                            onPressed: () {},
+                            child: const Text(
+                              "Купить",
+                              style: TextStyle(fontSize: 10),
+                            )),
+                      ),
+                    );
+                  },
+                  separatorBuilder: (BuildContext context, int index) {
+                    return const Divider(
+                      height: 10,
+                      color: Colors.black,
+                    );
+                  },
+                ),
                 Positioned(
                   bottom: 80,
                   child: Card(
+                    color: Theme.of(context).primaryColor,
                     elevation: 4,
                     child: Padding(
-                      padding: EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
                       child: Text(
                         "Общая сумма: ${formatNumberWithSpaces(sum)} сом",
                         style:
-                            const TextStyle(color: Colors.blue, fontSize: 18),
+                            const TextStyle(color: Colors.white, fontSize: 18),
                       ),
                     ),
                   ),

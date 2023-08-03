@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:internet_store_tt/theme.dart';
 
 import 'screen/home_screen.dart';
 
@@ -13,6 +14,7 @@ class InternetStoreApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: AppTheme.lightTheme,
       home: HomeScreen(),
     );
   }

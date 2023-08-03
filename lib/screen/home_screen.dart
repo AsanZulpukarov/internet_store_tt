@@ -90,12 +90,13 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
         body: GridView.builder(
+            padding: const EdgeInsets.all(8.0),
             itemCount: products.length,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               mainAxisExtent: 280,
-              mainAxisSpacing: 10.0,
-              crossAxisSpacing: 10.0,
+              mainAxisSpacing: 8.0,
+              crossAxisSpacing: 8.0,
             ),
             itemBuilder: (BuildContext context, int index) {
               return InkWell(
