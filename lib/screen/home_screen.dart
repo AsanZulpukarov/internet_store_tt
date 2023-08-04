@@ -5,9 +5,14 @@ import 'package:internet_store_tt/screen/shopping_cart_screen.dart';
 
 import '../methods.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key}) : super(key: key);
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +24,7 @@ class HomeScreen extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => ShoppingCartScreen()),
+                        builder: (context) => const ShoppingCartScreen()),
                   );
                 },
                 icon: const Icon(Icons.shopping_cart)),
@@ -36,13 +41,14 @@ class HomeScreen extends StatelessWidget {
             ),
             itemBuilder: (BuildContext context, int index) {
               return InkWell(
-                onTap: () {
-                  Navigator.push(
+                onTap: () async {
+                  await Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => ProductInfoScreen(
                                 index: index,
                               )));
+                  setState(() {});
                 },
                 child: Card(
                   child: Padding(

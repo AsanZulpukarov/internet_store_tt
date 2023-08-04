@@ -19,6 +19,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
   late final TextEditingController _priceController;
   late final TextEditingController _urlController;
 
+  final TextStyle styleFormText = const TextStyle(color: Colors.white);
   @override
   void initState() {
     _nameController =
@@ -44,6 +45,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
             children: [
               TextFormField(
                 controller: _nameController,
+                style: styleFormText,
                 decoration: const InputDecoration(
                   labelText: 'Название товара',
                 ),
@@ -62,6 +64,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
               ),
               TextFormField(
                 controller: _descriptionController,
+                style: styleFormText,
                 decoration: const InputDecoration(
                   labelText: 'Описание товара',
                 ),
@@ -81,6 +84,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
               ),
               TextFormField(
                 controller: _priceController,
+                style: styleFormText,
                 decoration: const InputDecoration(
                   labelText: 'Цена',
                 ),
@@ -103,6 +107,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
               ),
               TextFormField(
                 controller: _urlController,
+                style: styleFormText,
                 decoration:
                     const InputDecoration(labelText: 'Ссылка на фото товара'),
                 validator: (value) {
@@ -130,6 +135,12 @@ class _EditProductScreenState extends State<EditProductScreen> {
                         int.parse(_priceController.value.text);
                     DataStorage().products[widget.index].urlImage =
                         _urlController.value.text;
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text("Данные изменены!"),
+                      ),
+                    );
+                    Navigator.pop(context);
                   }
                 },
                 child: const Text('Изменить данные товара'),

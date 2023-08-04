@@ -117,24 +117,8 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
                         ? Container()
                         : ElevatedButton(
                             onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    title: const Text(
-                                        "Ваш заказ успешно оформлен!"),
-                                    content: Text('Сумма товара $sum сом'),
-                                    actions: [
-                                      ElevatedButton(
-                                        child: const Text('ОК'),
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
+                              getDialogWindowForBuyProduct(
+                                  context, formatNumberWithSpaces(sum));
                             },
                             child: const Text("Оформить заказ"))),
               ],
