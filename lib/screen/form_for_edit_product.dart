@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:internet_store_tt/db/database.dart';
 
 import '../methods.dart';
-import '../models/data_storage.dart';
+import '../models/product_model.dart';
 
 class EditProductScreen extends StatefulWidget {
-  final int index;
-  const EditProductScreen({super.key, required this.index});
+  final Product product;
+
+  const EditProductScreen({super.key, required this.product});
 
   @override
   State<EditProductScreen> createState() => _EditProductScreenState();
@@ -20,16 +22,15 @@ class _EditProductScreenState extends State<EditProductScreen> {
   late final TextEditingController _urlController;
 
   final TextStyle styleFormText = const TextStyle(color: Colors.white);
+
   @override
   void initState() {
-    _nameController =
-        TextEditingController(text: DataStorage().products[widget.index].name);
-    _descriptionController = TextEditingController(
-        text: DataStorage().products[widget.index].description);
-    _priceController = TextEditingController(
-        text: DataStorage().products[widget.index].price.toString());
-    _urlController = TextEditingController(
-        text: DataStorage().products[widget.index].urlImage);
+    _nameController = TextEditingController(text: widget.product.name);
+    _descriptionController =
+        TextEditingController(text: widget.product.description);
+    _priceController =
+        TextEditingController(text: widget.product.price.toString());
+    _urlController = TextEditingController(text: widget.product.urlImage);
     super.initState();
   }
 
@@ -75,9 +76,6 @@ class _EditProductScreenState extends State<EditProductScreen> {
                   return null;
                 },
                 maxLines: 10,
-                onSaved: (value) {
-                  _descriptionController.text = value!;
-                },
               ),
               const SizedBox(
                 height: 10,
@@ -127,14 +125,14 @@ class _EditProductScreenState extends State<EditProductScreen> {
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
-                    DataStorage().products[widget.index].name =
-                        _nameController.value.text;
-                    DataStorage().products[widget.index].description =
+                    widget.product.name = _nameController.value.text;
+                    widget.product.description =
                         _descriptionController.value.text;
-                    DataStorage().products[widget.index].price =
+                    widget.product.price =
                         int.parse(_priceController.value.text);
-                    DataStorage().products[widget.index].urlImage =
-                        _urlController.value.text;
+                    widget.product.urlImage = _urlController.value.text;
+
+                    DBProvider.db.updateProduct(widget.product);
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
                         content: Text("Данные изменены!"),

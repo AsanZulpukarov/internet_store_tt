@@ -3,7 +3,7 @@ import 'package:internet_store_tt/theme.dart';
 
 import 'screen/home_screen.dart';
 
-main() {
+void main() {
   runApp(const InternetStoreApp());
 }
 
@@ -15,7 +15,7 @@ class InternetStoreApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
-      home: HomeScreen(),
+      home: const HomeScreen(),
     );
   }
 }
