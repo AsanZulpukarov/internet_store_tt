@@ -1,9 +1,8 @@
 import 'dart:io';
-
-import 'package:internet_store_tt/models/buy_product.dart';
-import 'package:internet_store_tt/models/product_model.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
+import '../../models/buy_product_model.dart';
+import '../../models/product_model.dart';
 
 class DBProvider {
   DBProvider._();
@@ -25,64 +24,55 @@ class DBProvider {
   _createDB(Database db, int version) async {
     List<Product> testProducts = [
       Product(
-        name: 'Xiaomi Redmi 12 8+128Gb',
-        description: 'Мощный смартфон с отличной камерой.',
-        price: 15000,
-        urlImage: 'https://www.myphone.kg/files/media/20/20883.webp',
+        'Xiaomi Redmi 12 8+128Gb',
+        'Мощный смартфон с отличной камерой.',
+        15000,
+        'https://www.myphone.kg/files/media/20/20883.webp',
       ),
       Product(
-          name: 'Ноутбук Dell XPS 13',
-          description:
-              'Легкий и производительный ноутбук для работы и развлечений.',
-          price: 120000,
-          urlImage:
-              'https://avatars.mds.yandex.net/get-mpic/4362548/img_id1555423894575553672.jpeg/orig'),
+          'Ноутбук Dell XPS 13',
+          'Легкий и производительный ноутбук для работы и развлечений.',
+          120000,
+          'https://avatars.mds.yandex.net/get-mpic/4362548/img_id1555423894575553672.jpeg/orig'),
       Product(
-        name: 'Наушники Sony WH-1000XM4',
-        description:
-            'Отличные беспроводные наушники с активным шумоподавлением.',
-        price: 24999,
-        urlImage: 'https://gamestore.kg/wp-content/uploads/wh100xm4-1.jpg',
+        'Наушники Sony WH-1000XM4',
+        'Отличные беспроводные наушники с активным шумоподавлением.',
+        24999,
+        'https://gamestore.kg/wp-content/uploads/wh100xm4-1.jpg',
       ),
       Product(
-        name: 'Xiaomi Redmi 12 8+128Gb',
-        description: 'Мощный смартфон с отличной камерой.',
-        price: 15000,
-        urlImage: 'https://www.myphone.kg/files/media/20/20883.webp',
+        'Xiaomi Redmi 12 8+128Gb',
+        'Мощный смартфон с отличной камерой.',
+        15000,
+        'https://www.myphone.kg/files/media/20/20883.webp',
       ),
       Product(
-          name: 'Ноутбук Dell XPS 13',
-          description:
-              'Легкий и производительный ноутбук для работы и развлечений.',
-          price: 120000,
-          urlImage:
-              'https://avatars.mds.yandex.net/get-mpic/4362548/img_id1555423894575553672.jpeg/orig'),
+          'Ноутбук Dell XPS 13',
+          'Легкий и производительный ноутбук для работы и развлечений.',
+          120000,
+          'https://avatars.mds.yandex.net/get-mpic/4362548/img_id1555423894575553672.jpeg/orig'),
       Product(
-        name: 'Наушники Sony WH-1000XM4',
-        description:
-            'Отличные беспроводные наушники с активным шумоподавлением.',
-        price: 24999,
-        urlImage: 'https://gamestore.kg/wp-content/uploads/wh100xm4-1.jpg',
+        'Наушники Sony WH-1000XM4',
+        'Отличные беспроводные наушники с активным шумоподавлением.',
+        24999,
+        'https://gamestore.kg/wp-content/uploads/wh100xm4-1.jpg',
       ),
       Product(
-        name: 'Xiaomi Redmi 12 8+128Gb',
-        description: 'Мощный смартфон с отличной камерой.',
-        price: 15000,
-        urlImage: 'https://www.myphone.kg/files/media/20/20883.webp',
+        'Xiaomi Redmi 12 8+128Gb',
+        'Мощный смартфон с отличной камерой.',
+        15000,
+        'https://www.myphone.kg/files/media/20/20883.webp',
       ),
       Product(
-          name: 'Ноутбук Dell XPS 13',
-          description:
-              'Легкий и производительный ноутбук для работы и развлечений.',
-          price: 120000,
-          urlImage:
-              'https://avatars.mds.yandex.net/get-mpic/4362548/img_id1555423894575553672.jpeg/orig'),
+          'Ноутбук Dell XPS 13',
+          'Легкий и производительный ноутбук для работы и развлечений.',
+          120000,
+          'https://avatars.mds.yandex.net/get-mpic/4362548/img_id1555423894575553672.jpeg/orig'),
       Product(
-        name: 'Наушники Sony WH-1000XM4',
-        description:
-            'Отличные беспроводные наушники с активным шумоподавлением.',
-        price: 24999,
-        urlImage: 'https://gamestore.kg/wp-content/uploads/wh100xm4-1.jpg',
+        'Наушники Sony WH-1000XM4',
+        'Отличные беспроводные наушники с активным шумоподавлением.',
+        24999,
+        'https://gamestore.kg/wp-content/uploads/wh100xm4-1.jpg',
       )
     ];
     await db.execute('''
@@ -115,7 +105,6 @@ class DBProvider {
     for (var element in productsMapList) {
       products.add(Product.fromMap(element));
     }
-
     return products;
   }
 
@@ -124,7 +113,6 @@ class DBProvider {
     Database db = await database;
     var res = await db.query(Product.productsTable,
         where: "${Product.columnId} = ?", whereArgs: [id]);
-
     return Product.fromMap(res.first);
   }
 
@@ -137,7 +125,6 @@ class DBProvider {
     for (var element in buyProductMapList) {
       buyProductList.add(BuyProduct.fromMap(element));
     }
-
     return buyProductList;
   }
 
@@ -146,7 +133,6 @@ class DBProvider {
     Database db = await database;
     var res = await db.query(Product.productsTable,
         where: "${BuyProduct.columnId} = ?", whereArgs: [id]);
-
     return res.isNotEmpty ? BuyProduct.fromMap(res.first) : null;
   }
 
@@ -154,7 +140,6 @@ class DBProvider {
   Future<Product> insertProduct(Product product) async {
     Database db = await database;
     product.id = await db.insert(Product.productsTable, product.toMap());
-
     return product;
   }
 
@@ -162,21 +147,18 @@ class DBProvider {
   Future<BuyProduct> insertBuyProduct(BuyProduct product) async {
     Database db = await database;
     product.id = await db.insert(BuyProduct.buyProductTable, product.toMap());
-
     return product;
   }
 
   //UPDATE
-  Future<int> updateProduct(Product product) async {
+  Future<void> updateProduct(Product product) async {
     Database db = await database;
-    var res = await db.update(
+    await db.update(
       Product.productsTable,
       product.toMap(),
       where: "${Product.columnId} = ?",
       whereArgs: [product.id],
     );
-
-    return res;
   }
 
   //DELETE FROM PRODUCT
@@ -187,7 +169,6 @@ class DBProvider {
       where: "${Product.columnId} = ?",
       whereArgs: [id],
     );
-
     return res;
   }
 
@@ -199,7 +180,6 @@ class DBProvider {
       where: "${BuyProduct.columnId} = ?",
       whereArgs: [id],
     );
-
     return res;
   }
 }
